@@ -29,9 +29,7 @@ export const getProjectList = async () => {
 
   const response = await fetch(projectListUrl, {
     method: "get",
-    headers: {
-      Authorization: jwt,
-    },
+    headers: jwt ? { Authorization: jwt } : {},
   });
 
   const projectListJson = await response.json();
@@ -50,9 +48,7 @@ export const getOneProject = async (pjId) => {
 
   const response = await fetch(oneProjectUrl, {
     method: "get",
-    headers: {
-      Authorization: jwt,
-    },
+    headers: jwt ? { Authorization: jwt } : {},
   });
 
   const oneProjectJson = await response.json();
