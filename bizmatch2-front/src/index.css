@@ -1,3 +1,16 @@
+:root {
+  --color-navy-900: #10182b;
+  --color-navy-800: #1a2340;
+  --color-primary: #3350e0;
+  --color-primary-dark: #2540b8;
+  --color-teal: #0ea46b;
+  --color-bg: #f7f8fc;
+  --color-surface: #ffffff;
+  --color-border: #e4e7f2;
+  --color-text: #1b2036;
+  --color-text-muted: #5b6178;
+}
+
 * {
   box-sizing: border-box;
 }

@@ -76,10 +76,12 @@ export default function BoardList() {
                     </div>
                   )}
                   {line.pstCtgry === 1 && (
-                    <div className={BoardListStyle.blueBox}>문의</div>
+                    <div>
+                      <span className={BoardListStyle.blueBox}>문의</span>
+                    </div>
                   )}
 
-                  {line.athrId !== currUserEmail && memberInfo.mbrCtgry !==2 && line.isPstOpn === 1  ? (
+                  {line.athrId !== currUserEmail && memberInfo?.mbrCtgry !== 2 && line.isPstOpn === 1  ? (
                     <div> {line.pstNm}</div>
                   ) : (
                     <div>
@@ -94,37 +96,18 @@ export default function BoardList() {
 
                   <div>{maskName(line.mbrNm)}</div>
                   {line.isPstOpn === 0 && (
-                    <div style={{ color: "#00007b", fontWeight: "900" }}>
-                      공개
-                    </div>
+                    <div className={BoardListStyle.openLabel}>공개</div>
                   )}
                   {line.isPstOpn === 1 && (
-                    <div style={{ color: "#8d0000", fontWeight: "900" }}>
-                      비공개
-                    </div>
+                    <div className={BoardListStyle.closedLabel}>비공개</div>
                   )}
                   <div>{formatDate(line.lstModDt)}</div>
                   <div>{line.pstHt}</div>
                 </div>
               ))}
-
-              {Array.from(
-                { length: 10 - currentPageItems.length },
-                // eslint-disable-next-line no-unused-vars
-                (_, index) => (
-                  <div className={BoardListStyle.subjectLine}>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                    <div> </div>
-                  </div>
-                )
-              )}
             </>
           ) : (
-            <div>게시글이 없습니다.</div>
+            <div className={BoardListStyle.emptyState}>게시글이 없습니다.</div>
           )}
         </div>
         <Pagination

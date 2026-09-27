@@ -11,108 +11,186 @@ import CategoryBar2 from "../common/CategoryBar2";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import SignupPageHeader from "./SignupPageHeader";
+import SignupStepProgress from "./SignupStepProgress";
+
+const FREELANCER_TRUST_BULLETS = [
+  "본인 인증 절차",
+  "에스크로 안전 정산",
+  "맞춤 프로젝트 추천",
+];
+
+const STEP_LABELS = ["기본 정보", "첨부 및 추가 정보", "약관 동의"];
+const TOTAL_STEPS = STEP_LABELS.length;
 
 const SignupBox = styled.div`
-  max-width: 40rem;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #f8f8f8;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  max-width: 34rem;
+  margin: 0 auto 3rem;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(19, 30, 74, 0.08);
+`;
+
+const StepPanel = styled.div`
+  display: ${(props) => (props.$active ? "block" : "none")};
+`;
+
+const SectionLabel = styled.p`
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+`;
+
+const NavRow = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+
+  button {
+    flex: 1;
+  }
+`;
+
+const PrevButton = styled.button`
+  width: 100%;
+  padding: 0.95rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: var(--color-navy-900);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-bg);
+    transform: translateY(-2px);
+  }
 `;
 
 const RedWord = styled.span`
-  color: red;
+  color: #e5484d;
 `;
 
 const AuthNumField = styled.input`
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   flex-grow: 1;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+  }
 `;
 
 const ConfirmAuthNumButton = styled.button`
-  padding: 0.8rem 1.2rem;
-  font-size: 1rem;
-  background-color: #28a745;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background-color: var(--color-teal);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: #218838;
+    background-color: #0c8c5b;
+    transform: translateY(-1px);
   }
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  margin-bottom: 2rem;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
 
   p {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
   }
 
   input {
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
     outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
     &:focus {
-      border-color: #007bff;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
     }
   }
 
   p.cmpMsg {
-    color: red;
-    font-size: 1rem;
-    margin-top: 0.4rem;
+    color: #e5484d;
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-top: 0.2rem;
   }
 `;
 
 const BtnBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  margin-bottom: 2rem;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
 
   p {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
   }
 
   div {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
   }
 
   input {
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
     flex-grow: 1;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+    }
   }
 
   button {
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    background-color: #007bff;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background-color: var(--color-primary);
     color: white;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: var(--color-primary-dark);
+      transform: translateY(-1px);
     }
   }
 `;
@@ -120,51 +198,63 @@ const BtnBox = styled.div`
 const ComAddr = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
 
   p {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
   }
 `;
 
 const ComDiv = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 
   input {
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
     flex-grow: 1;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+    }
   }
 
   button {
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    background-color: #007bff;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background-color: var(--color-primary);
     color: white;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: var(--color-primary-dark);
+      transform: translateY(-1px);
     }
   }
 `;
 
 const Timer = styled.span`
-  font-size: 1rem;
-  color: red;
+  font-size: 0.9rem;
+  color: #e5484d;
+  font-weight: 600;
 `;
 
 const ErrorMsg = styled.p`
-  color: red;
-  font-size: 1rem;
+  color: #e5484d;
+  font-size: 0.9rem;
   margin-top: 0.4rem;
 `;
 
@@ -176,7 +266,7 @@ const FileBox = styled.div`
 
 const AddFile = styled.div`
   input[type="file"] {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -188,21 +278,26 @@ const FileList = styled.ul`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--color-bg);
+    border-radius: 8px;
     margin-bottom: 0.5rem;
   }
 
   button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: #ffffff;
+    color: #e5484d;
+    border: 1px solid #f4c7c6;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #c82333;
+      background-color: #fdeeee;
     }
   }
 `;
@@ -211,44 +306,53 @@ const CheckBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
-  border: 1px solid gray;
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
   padding: 1.5rem;
-  border-radius: 1rem;
+  border-radius: 14px;
 
   p {
-    font-size: 1rem;
+    font-size: 0.92rem;
+    color: var(--color-text);
   }
 
   div {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
   }
 
   input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  p {
-    font-size: 1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--color-primary);
   }
 `;
 
 const SignupButton = styled.button`
   width: 100%;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  background-color: #007bff;
+  padding: 0.95rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background-color: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 12px;
   cursor: pointer;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 8px 20px rgba(51, 80, 224, 0.35);
+  transition: background-color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(51, 80, 224, 0.45);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
   }
 `;
 
@@ -318,6 +422,8 @@ export default function FreelancerSignup() {
   const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isAuthVerified, setIsAuthVerified] = useState(false);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -372,6 +478,7 @@ export default function FreelancerSignup() {
       } else {
         alert("인증 완료");
         setIsRunning(false);
+        setIsAuthVerified(true);
       }
     } catch (error) {
       //console.log(error);
@@ -480,13 +587,84 @@ export default function FreelancerSignup() {
     }).open();
   }
 
+  const validateStep1 = () => {
+    if (!nameRef.current.value) {
+      alert("이용자명을 입력해주세요.");
+      return false;
+    }
+    if (!birthDtRef.current.value) {
+      alert("생년월일을 입력해주세요.");
+      return false;
+    }
+    if (!postcodeRef.current.value || !addressRef.current.value) {
+      alert("주소를 입력해주세요.");
+      return false;
+    }
+    if (!phoneNumRef.current.value) {
+      alert("이용자 전화번호를 입력해주세요.");
+      return false;
+    }
+    if (!emailRef.current.value) {
+      alert("이메일을 입력해주세요.");
+      return false;
+    }
+    if (!isAuthVerified) {
+      alert("이메일 인증을 완료해주세요.");
+      return false;
+    }
+    if (!passwordRef.current.value || pwdMatch !== true) {
+      alert("비밀번호를 확인해주세요.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateStep2 = () => {
+    if (!fileRef.current.files || fileRef.current.files.length === 0) {
+      alert("첨부파일을 등록해주세요.");
+      return false;
+    }
+    if (!selectedSubCategory) {
+      alert("주요 산업분야를 선택해주세요.");
+      return false;
+    }
+    if (!selectedSubCategory2) {
+      alert("관심 산업분야를 선택해주세요.");
+      return false;
+    }
+    return true;
+  };
+
+  const STEP_VALIDATORS = [validateStep1, validateStep2];
+
+  const goNext = () => {
+    const validator = STEP_VALIDATORS[currentStep - 1];
+    if (validator && !validator()) return;
+    setCurrentStep((step) => Math.min(step + 1, TOTAL_STEPS));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goPrev = () => {
+    setCurrentStep((step) => Math.max(step - 1, 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
+      <SignupPageHeader
+        icon={faUserTie}
+        title="프리랜서 회원가입"
+        description="사업자 등록증 없이도 가입할 수 있어요."
+        bullets={FREELANCER_TRUST_BULLETS}
+      />
       <SignupBox>
+        <SignupStepProgress steps={STEP_LABELS} currentStep={currentStep} />
         <p>
           <RedWord>*</RedWord>은 필수입력사항입니다.
         </p>
 
+        <StepPanel $active={currentStep === 1}>
+        <SectionLabel>기본 정보</SectionLabel>
         <TextBox>
           <p>
             <RedWord>*</RedWord>이용자명
@@ -646,7 +824,10 @@ export default function FreelancerSignup() {
             <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
           )}
         </TextBox>
+        </StepPanel>
 
+        <StepPanel $active={currentStep === 2}>
+        <SectionLabel>첨부 및 추가 정보</SectionLabel>
         <BtnBox>
           <p>
             <RedWord>*</RedWord>이용자 첨부파일
@@ -690,6 +871,10 @@ export default function FreelancerSignup() {
           </p>
           <CategoryBar2 />
         </TextBox>
+        </StepPanel>
+
+        <StepPanel $active={currentStep === 3}>
+        <SectionLabel>약관 동의</SectionLabel>
         <TextBox>
           <p>
             <RedWord>*</RedWord>이용약관
@@ -725,9 +910,24 @@ export default function FreelancerSignup() {
             <p>개인정보 수집 및 이용에 동의합니다.</p>
           </div>
         </CheckBox>
-        <SignupButton type="submit" onClick={handleSubmit}>
-          가입하기
-        </SignupButton>
+        </StepPanel>
+
+        <NavRow>
+          {currentStep > 1 && (
+            <PrevButton type="button" onClick={goPrev}>
+              이전
+            </PrevButton>
+          )}
+          {currentStep < TOTAL_STEPS ? (
+            <SignupButton type="button" onClick={goNext}>
+              다음
+            </SignupButton>
+          ) : (
+            <SignupButton type="submit" onClick={handleSubmit}>
+              가입하기
+            </SignupButton>
+          )}
+        </NavRow>
       </SignupBox>
     </>
   );

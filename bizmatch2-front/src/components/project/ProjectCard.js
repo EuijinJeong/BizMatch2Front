@@ -16,7 +16,7 @@ export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatcher = useDispatch();
-  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const email = JSON.parse(sessionStorage.getItem("info") || "null")?.emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
   const scrapProjectList = useSelector((state) => state.project.scrapProject);

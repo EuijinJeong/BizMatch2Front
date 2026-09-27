@@ -1,5 +1,12 @@
 import React, { useMemo } from "react";
 import PaginationStyle from "../../admin/components/CmsPagination.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAnglesLeft,
+  faAnglesRight,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function CmsPagination({
   totalItems = 0, // 기본값 0 설정
@@ -19,31 +26,53 @@ export default function CmsPagination({
 
   return (
     <div className={PaginationStyle.pagination}>
-      <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
-        처음
+      <button
+        className={PaginationStyle.navBtn}
+        aria-label="처음 페이지로 이동"
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
+        <FontAwesomeIcon icon={faAnglesLeft} />
       </button>
       <button
+        className={PaginationStyle.navBtn}
+        aria-label="이전 페이지로 이동"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        이전
+        <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      {pageNumbers.map((number) => (
-        <button key={number} onClick={() => onPageChange(number)}>
-          {number}
-        </button>
-      ))}
+
+      <div className={PaginationStyle.numberGroup}>
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            className={`${PaginationStyle.pageBtn} ${
+              currentPage === number ? PaginationStyle.pageBtnActive : ""
+            }`}
+            onClick={() => onPageChange(number)}
+            aria-current={currentPage === number ? "page" : undefined}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
+
       <button
+        className={PaginationStyle.navBtn}
+        aria-label="다음 페이지로 이동"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        다음
+        <FontAwesomeIcon icon={faChevronRight} />
       </button>
       <button
+        className={PaginationStyle.navBtn}
+        aria-label="마지막 페이지로 이동"
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}
       >
-        마지막
+        <FontAwesomeIcon icon={faAnglesRight} />
       </button>
     </div>
   );

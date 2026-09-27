@@ -3,8 +3,72 @@ import mainViewStyle from "./MainView.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoginModal from "../ui/LoginModal";
+import ProjectShowcase from "./ProjectShowcase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownLong } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHandshake,
+  faBuilding,
+  faChartLine,
+  faShieldHalved,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
+
+const FEATURES = [
+  {
+    icon: faHandshake,
+    title: "맞춤형 전문가 매칭",
+    desc: "업종과 프로젝트에 맞는 전문가를 신속하게 연결하고, 필요한 서비스를 맞춤형으로 지원받으세요.",
+  },
+  {
+    icon: faBuilding,
+    title: "기업 맞춤형 지원",
+    desc: "기업의 특정 요구에 맞춘 다양한 아웃소싱 솔루션으로 업무를 효율적으로 처리하세요.",
+  },
+  {
+    icon: faChartLine,
+    title: "실시간 프로젝트 관리",
+    desc: "프로젝트 진행 상황을 한눈에 확인하고, 필요한 변경 사항을 즉시 반영할 수 있어요.",
+  },
+  {
+    icon: faShieldHalved,
+    title: "안전한 거래 및 결제",
+    desc: "철저한 보안과 신뢰성 있는 에스크로 결제 시스템으로 안전한 거래 환경을 보장합니다.",
+  },
+];
+
+const WHY_ITEMS = [
+  {
+    title: "시간 절약",
+    desc: "전문가 탐색 시간을 단축하고 빠르게 프로젝트를 시작하세요.",
+  },
+  {
+    title: "신뢰할 수 있는 네트워크",
+    desc: "다양한 산업군의 인증된 전문가와 안정적으로 거래하세요.",
+  },
+  {
+    title: "유연한 가격 책정",
+    desc: "예산에 맞는 합리적인 가격으로 최상의 결과를 얻으세요.",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "플랫폼에서 제공하는 서비스는 어떤 것인가요?",
+    a: "다양한 프로젝트 등록, 기업과의 매칭, 지원 관리 및 결제 시스템 등을 제공합니다.",
+  },
+  {
+    q: "프로젝트 등록 후 어떻게 지원 기업을 선택하나요?",
+    a: "등록한 프로젝트에 관심 있는 기업이 지원하면, 해당 기업들의 프로필과 제안을 검토하여 선택할 수 있습니다.",
+  },
+  {
+    q: "결제는 어떻게 진행되나요?",
+    a: "플랫폼 내에서 제공하는 안전한 결제 시스템을 통해, 계약 체결 후 정해진 금액을 결제할 수 있습니다.",
+  },
+  {
+    q: "분쟁이 발생했을 때 어떻게 해결되나요?",
+    a: "고객 지원팀에 문의하거나, 플랫폼 내 분쟁 해결 프로세스를 통해 중재를 요청할 수 있습니다.",
+  },
+];
 
 export default function MainView() {
   const navigate = useNavigate();
@@ -15,21 +79,18 @@ export default function MainView() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // 첫 화면 진입 시 자연스러운 페이드인
+  const [isHeroVisible, setIsHeroVisible] = useState(false);
+  useEffect(() => {
+    const frameId = requestAnimationFrame(() => setIsHeroVisible(true));
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  const projectShowcaseRef = useRef(null);
   const secondSectionRef = useRef(null);
   const thirdSectionRef = useRef(null);
   const fourthSectionRef = useRef(null);
   const fifthSectionRef = useRef(null);
-
-  // 스크롤 이동 함수
-  const scrollToSection = (sectionRef) => {
-    const headerHeight = 80;
-
-    // 해당 섹션의 위치를 계산하고, 헤더 높이를 빼서 조정
-    window.scrollTo({
-      top: sectionRef.current.offsetTop - headerHeight, // 섹션 위치에서 헤더 높이를 뺀 값
-      behavior: "smooth", // 부드럽게 스크롤
-    });
-  };
 
   // 프로젝트 등록 페이지로 이동하는 핸들러
   const goToRegistPage = () => {
@@ -40,6 +101,11 @@ export default function MainView() {
     }
   };
 
+  // 공고 둘러보기로 이동하는 핸들러
+  const goToFindPage = () => {
+    navigate("/project/findpage");
+  };
+
   // 게시판으로 이동하는 핸들러
   const handlerQuestionClick = () => {
     navigate("/board");
@@ -47,17 +113,25 @@ export default function MainView() {
 
   return (
     <>
-      <div className={mainViewStyle.container}>
-        <div className={mainViewStyle.reg}>
-          <div className={mainViewStyle.regMent}>
-            <div className={mainViewStyle.regTitleMent}>
-              <div>프로젝트 등록하기</div>
-            </div>
-
-            <div className={mainViewStyle.regSmallMent}>
-              <div>지금 프로젝트를 등록해서 나에게 </div>
-              <div>필요한 전문가를 찾아보세요.</div>
-            </div>
+      <div
+        className={`${mainViewStyle.container} ${
+          isHeroVisible ? mainViewStyle.visible : ""
+        }`}
+      >
+        <div className={mainViewStyle.hero}>
+          <div className={mainViewStyle.heroInner}>
+            <span className={mainViewStyle.eyebrow}>
+              중소기업 B2B 매칭 플랫폼
+            </span>
+            <h1 className={mainViewStyle.regTitleMent}>
+              믿을 수 있는 파트너를
+              <br />
+              가장 빠르게 찾는 방법
+            </h1>
+            <p className={mainViewStyle.regSmallMent}>
+              검증된 기업과 프리랜서를 연결하고, 에스크로 결제로 안전하게
+              거래하세요.
+            </p>
             <div className={mainViewStyle.regBtnArea}>
               <button
                 className={mainViewStyle.regBtn}
@@ -66,144 +140,89 @@ export default function MainView() {
               >
                 프로젝트 등록하기
               </button>
+              <button
+                className={mainViewStyle.secondaryBtn}
+                onClick={goToFindPage}
+              >
+                등록된 공고 둘러보기
+              </button>
             </div>
-          </div>
-          <div className={mainViewStyle.imgBox}>
-            <img src="./images/Illustration.svg" alt="" />
-          </div>
-
-          <div className={mainViewStyle.escape}>
-            <FontAwesomeIcon
-              icon={faDownLong}
-              style={{ color: "#4758ee" }}
-              size="2xl"
-              className={mainViewStyle.full}
-              onClick={() => scrollToSection(secondSectionRef)}
-            />
+            <div className={mainViewStyle.trustRow}>
+              <div className={mainViewStyle.trustItem}>
+                <span className={mainViewStyle.trustDot}>
+                  <FontAwesomeIcon icon={faCheck} />
+                </span>
+                사업자 인증 완료 기업만 매칭
+              </div>
+              <div className={mainViewStyle.trustItem}>
+                <span className={mainViewStyle.trustDot}>
+                  <FontAwesomeIcon icon={faCheck} />
+                </span>
+                에스크로 기반 안전 결제
+              </div>
+              <div className={mainViewStyle.trustItem}>
+                <span className={mainViewStyle.trustDot}>
+                  <FontAwesomeIcon icon={faCheck} />
+                </span>
+                실시간 프로젝트 현황 관리
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+      <div ref={projectShowcaseRef}>
+        <ProjectShowcase />
+      </div>
+
       <div className={mainViewStyle.secondSection} ref={secondSectionRef}>
         <div className={mainViewStyle.secondSectionBox}>
-          <p className={mainViewStyle.secondSectionTitle}>
-            BizMatch에서 아웃소싱 고민을 해결해보세요!
-          </p>
+          <div className={mainViewStyle.sectionHead}>
+            <div className={mainViewStyle.sectionEyebrow}>HOW IT WORKS</div>
+            <p className={mainViewStyle.sectionTitle}>
+              BizMatch에서 아웃소싱 고민을 해결하세요
+            </p>
+            <p className={mainViewStyle.sectionSub}>
+              등록부터 정산까지, 외주 프로세스 전체를 한 곳에서 관리할 수
+              있어요.
+            </p>
+          </div>
 
           <div className={mainViewStyle.cards}>
-            <div className={mainViewStyle.card}>
-              <div className={mainViewStyle.cardText}>
-                <h3>맞춤형 전문가와 매칭</h3>
+            {FEATURES.map((feature) => (
+              <div className={mainViewStyle.card} key={feature.title}>
+                <div className={mainViewStyle.featureIcon}>
+                  <FontAwesomeIcon icon={feature.icon} />
+                </div>
+                <div className={mainViewStyle.cardText}>
+                  <h3>{feature.title}</h3>
+                </div>
+                <p className={mainViewStyle.cardCaption}>{feature.desc}</p>
               </div>
-              <div className={mainViewStyle.cardImg}>
-                <img src="./images/second-section1.svg" alt="" />
-              </div>
-              <div className={mainViewStyle.cardCaption}>
-                <p>업종과 프로젝트에 맞는</p>
-                <p>전문가 신속 연결</p>
-                <p>필요한 서비스와</p>
-                <p>맞춤형 지원 제공</p>
-              </div>
-            </div>
-            <div className={mainViewStyle.card}>
-              <div className={mainViewStyle.cardText}>
-                <h3>기업 맞춤형 지원</h3>
-              </div>
-              <div className={mainViewStyle.cardImg}>
-                <img src="./images/second-section2.svg" alt="" />
-              </div>
-              <div className={mainViewStyle.cardCaption}>
-                <p>기업 특정 요구에 맞춘</p>
-                <p>다양한 아웃소싱 솔루션</p>
-                <p>효율적인 업무 처리 가능</p>
-              </div>
-            </div>
-            <div className={mainViewStyle.card}>
-              <div className={mainViewStyle.cardText}>
-                <h3>실시간 프로젝트 관리</h3>
-              </div>
-              <div className={mainViewStyle.cardImg}>
-                <img src="./images/second-section3.svg" alt="" />
-              </div>
-              <div className={mainViewStyle.cardCaption}>
-                <p>프로젝트 진행 상황</p>
-                <p>한눈에 확인</p>
-                <p>필요한 변경 사항 즉시 반영</p>
-                <p>실시간 관리 시스템 제공</p>
-              </div>
-            </div>
-            <div className={mainViewStyle.card}>
-              <div className={mainViewStyle.cardText}>
-                <h3>안전한 거래 및 결제 시스템</h3>
-              </div>
-              <div className={mainViewStyle.cardCaption}>
-                <p>철저한 보안</p>
-                <p>신뢰성 있는 결제 시스템</p>
-                <p>안전한 거래 환경 보장</p>
-              </div>
-              <div className={mainViewStyle.cardImg}>
-                <img src="./images/second-section4.svg" alt="" />
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-        <div className={mainViewStyle.escape2}>
-          <FontAwesomeIcon
-            icon={faDownLong}
-            style={{ color: "#4758ee" }}
-            size="2xl"
-            className={mainViewStyle.full}
-            onClick={() => scrollToSection(thirdSectionRef)}
-          />
         </div>
       </div>
       <div className={mainViewStyle.thirdSection} ref={thirdSectionRef}>
         <div className={mainViewStyle.thirdSectionBox}>
           <p className={mainViewStyle.thirdSectionTitle}>왜 BizMatch 인가요?</p>
           <div className={mainViewStyle.thirdSectionCards}>
-            <div className={mainViewStyle.thirdSectionCard}>
-              <div className={mainViewStyle.thirdSectionCardHeader}>
-                <p className={mainViewStyle.thirdSectionCardHeaderTitle1}>
-                  시간 절약
-                </p>
+            {WHY_ITEMS.map((item, index) => (
+              <div className={mainViewStyle.thirdSectionCard} key={item.title}>
+                <span className={mainViewStyle.whyNum}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className={mainViewStyle.thirdSectionCardHeader}>
+                  <p className={mainViewStyle.thirdSectionCardHeaderTitle1}>
+                    {item.title}
+                  </p>
+                </div>
+                <div className={mainViewStyle.thirdSectionCardBody}>
+                  <p>{item.desc}</p>
+                </div>
               </div>
-              <div className={mainViewStyle.thirdSectionCardBody}>
-                <p>전문가 탐색 시간 단축</p>
-                <p>빠르게 프로젝트 시작</p>
-              </div>
-            </div>
-            <div className={mainViewStyle.thirdSectionCard}>
-              <div className={mainViewStyle.thirdSectionCardHeader}>
-                <p className={mainViewStyle.thirdSectionCardHeaderTitle2}>
-                  신뢰할 수 있는 네트워크
-                </p>
-              </div>
-              <div className={mainViewStyle.thirdSectionCardBody}>
-                <p>다양한 산업군 인증된 전문가</p>
-                <p>안정적인 거래</p>
-              </div>
-            </div>
-            <div className={mainViewStyle.thirdSectionCard}>
-              <div className={mainViewStyle.thirdSectionCardHeader}>
-                <p className={mainViewStyle.thirdSectionCardHeaderTitle3}>
-                  유연한 가격 책정
-                </p>
-              </div>
-              <div className={mainViewStyle.thirdSectionCardBody}>
-                <p>예산에 맞는 합리적인 가격</p>
-                <p>최상의 결과 도출</p>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-        <div className={mainViewStyle.escape2}>
-          <FontAwesomeIcon
-            icon={faDownLong}
-            style={{ color: "#4758ee" }}
-            size="2xl"
-            className={mainViewStyle.full}
-            onClick={() => scrollToSection(fourthSectionRef)}
-          />
         </div>
       </div>
       <div className={mainViewStyle.fourthSection} ref={fourthSectionRef}>
@@ -213,61 +232,19 @@ export default function MainView() {
           </p>
         </div>
         <div className={mainViewStyle.fourthSectionBox}>
-          <div className={mainViewStyle.card1}>
-            <div className={mainViewStyle.cardText}>
-              <span className={mainViewStyle.fourthSectionText}>
-                1. 플랫폼에서 제공하는 서비스는 어떤 것인가요?
-              </span>
+          {FAQ_ITEMS.map((item, index) => (
+            <div className={mainViewStyle.card1} key={item.q}>
+              <div className={mainViewStyle.faqQuestionRow}>
+                <span className={mainViewStyle.faqBadge}>Q{index + 1}</span>
+                <span className={mainViewStyle.fourthSectionText}>
+                  {item.q}
+                </span>
+              </div>
+              <div className={mainViewStyle.cardCaption1}>
+                <p>A. {item.a}</p>
+              </div>
             </div>
-            <div className={mainViewStyle.cardCaption1}>
-              <p>
-                A. 다양한 프로젝트 등록, 기업과의 매칭, 지원 관리 및 결제 시스템
-                등을 제공합니다.
-              </p>
-            </div>
-          </div>
-          <div className={mainViewStyle.fourthSectionBox2}></div>
-          <div className={mainViewStyle.card1}>
-            <div className={mainViewStyle.cardText}>
-              <span className={mainViewStyle.fourthSectionText}>
-                2. 프로젝트 등록 후 어떻게 지원 기업을 선택하나요?
-              </span>
-            </div>
-            <div className={mainViewStyle.cardCaption1}>
-              <p>
-                A. 등록한 프로젝트에 관심 있는 기업이 지원하면, 해당 기업들의
-                프로필과 제안을 검토하여 선택할 수 있습니다.
-              </p>
-            </div>
-          </div>
-          <div className={mainViewStyle.fourthSectionBox2}></div>
-          <div className={mainViewStyle.card1}>
-            <div className={mainViewStyle.cardText}>
-              <span className={mainViewStyle.fourthSectionText}>
-                3. 결제는 어떻게 진행되나요?
-              </span>
-            </div>
-            <div className={mainViewStyle.cardCaption1}>
-              <p>
-                A. 플랫폼 내에서 제공하는 안전한 결제 시스템을 통해, 계약 체결
-                후 정해진 금액을 결제할 수 있습니다.
-              </p>
-            </div>
-          </div>
-          <div className={mainViewStyle.fourthSectionBox2}></div>
-          <div className={mainViewStyle.card1}>
-            <div className={mainViewStyle.cardText}>
-              <span className={mainViewStyle.fourthSectionText}>
-                4. 분쟁이 발생했을 때 어떻게 해결되나요?
-              </span>
-            </div>
-            <div className={mainViewStyle.cardCaption1}>
-              <p>
-                A. 고객 지원팀에 문의하거나, 플랫폼 내 분쟁 해결 프로세스를 통해
-                중재를 요청할 수 있습니다.
-              </p>
-            </div>
-          </div>
+          ))}
 
           <div className={mainViewStyle.fourthSectionBoxQnaArea}>
             <p
@@ -278,21 +255,11 @@ export default function MainView() {
             </p>
           </div>
         </div>
-        <div className={mainViewStyle.escape3}>
-          <FontAwesomeIcon
-            icon={faDownLong}
-            style={{ color: "#4758ee" }}
-            size="2xl"
-            className={mainViewStyle.full}
-            onClick={() => scrollToSection(fifthSectionRef)}
-          />
-        </div>
       </div>
       <div className={mainViewStyle.fifthSection} ref={fifthSectionRef}>
         <div className={mainViewStyle.fifthSectionContainer}>
           <div className={mainViewStyle.fifthSectionTitle}>
-            <p>지금 바로 등록하여</p>
-            <p>비즈니스의 새로운 기회를 </p>
+            <p>지금 바로 등록하고 새로운 기회를</p>
             <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>

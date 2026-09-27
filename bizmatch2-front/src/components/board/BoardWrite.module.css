@@ -1,141 +1,163 @@
 .mainBox {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-  background-color: #f9f9f9;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding: 0 1.5rem;
 }
 
 .contentBox {
   margin-top: 3rem;
-  width: 65%;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  margin-bottom: 2.5rem;
+  padding: 2.25rem 2.5rem;
+  background-color: var(--color-surface);
+  box-shadow: 0 12px 28px rgba(19, 30, 74, 0.08);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
 }
 
 .title {
   display: flex;
-  font-size: 3.2vh;
-  font-weight: 900;
-  margin-top: 1vh;
-  margin-left: 1vw;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin-bottom: 1rem;
 }
 
 .functionLine {
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 1.3vh;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .postWritingBox {
   width: 100%;
-  height: 40rem;
+  min-height: 32rem;
   display: flex;
-  padding: 10px;
-  border: 1px solid black;
-  margin-top: 10px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 0.5rem;
   flex-direction: column;
 }
 
 #genre {
-  display: flex;
-  text-align: center;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.88rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
 .firstLine {
   display: flex;
-  margin-bottom: 1vh;
-  height: 4vh;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #f9fafc;
 }
 
 .isPublic {
   display: flex;
-  text-align: center;
   align-items: center;
-  justify-content: center;
-  margin-left: 0.3vw;
-  margin-right: 0.3vw;
+  gap: 0.35rem;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
   min-width: 4rem;
 }
 
 #title {
   display: flex;
-  border: solid 1px #e4e4e7;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   outline: none;
-  font-size: 13px;
-  padding-left: 5px;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.7rem;
   align-items: center;
   justify-content: flex-start;
   flex-grow: 1;
+  background-color: var(--color-surface);
+  transition: border-color 0.2s ease;
+}
+
+#title:focus {
+  border-color: var(--color-primary);
 }
 
 .writingPlace {
   display: flex;
-  grid-column: 1/-1;
-  grid-row: 2/-1;
+  flex-direction: column;
   text-align: left;
-  border: solid 1px #e4e4e7;
+  border: none;
   outline: none;
   flex-grow: 1;
 }
 
 .buttonImage {
-  width: 24px;
-}
-
-#save {
-  width: 20px;
+  width: 18px;
+  filter: brightness(100);
 }
 
 .buttonColor {
-  background-color: #007bff;
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
-  margin: 5px;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.55rem 1.1rem;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
-  border-radius: 0.5vh;
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 8px 18px rgba(51, 80, 224, 0.35);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.buttonImage {
-  filter: brightness(100);
+.buttonColor:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(51, 80, 224, 0.4);
 }
 
 .whiteText {
   color: white;
   font-weight: 700;
+  text-decoration: none;
 }
+
 .ql-editor {
-  min-height: 300px;
-  font-size: 16px;
-  line-height: 1.5;
+  min-height: 26rem;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .ql-toolbar {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  background-color: #f9fafc;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.writingPlace {
-  display: flex;
-  grid-column: 1 / -1;
-  grid-row: 2 / -1;
-  text-align: left;
-  border: solid 1px #e4e4e7;
-  outline: none;
-  flex-grow: 1;
-  flex-direction: column;
-}
 .togleBtn {
   display: flex;
-  width: 5rem;
-  justify-content: center;
+  align-items: center;
+  width: auto;
+  gap: 0.3rem;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
 }
+
 .togleText {
   display: flex;
   align-items: center;

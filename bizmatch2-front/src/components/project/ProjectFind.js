@@ -13,23 +13,6 @@ const PageContainer = styled.div`
   font-family: "Roboto", sans-serif;
 `;
 
-const AdImg = styled.img`
-  top: 20%;
-  position: sticky;
-  /* right: 20%; */
-`;
-
-const AdDiv1 = styled.div`
-  /* top: 50%;
-  position: sticky;
-  left: 5rem; */
-`;
-const AdDiv2 = styled.div`
-  /* position: sticky;
-  top: 50%;
-  right: 5rem; */
-`;
-
 const Title = styled.h1`
   text-align: center;
   font-size: 2rem;
@@ -52,19 +35,6 @@ const Input = styled.input`
   border-radius: 5px;
   font-size: 1rem;
   width: 300px;
-`;
-
-const Button = styled.button`
-  padding: 1.5rem 1.8rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
 const Filters = styled.div`
@@ -266,8 +236,7 @@ export default function ProjectFind() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    // e.preventDefault();
+  const handleSubmit = () => {
     setIsProcessing(true);
     setIsActive(false);
     setIsDisabled(true);
@@ -290,7 +259,7 @@ export default function ProjectFind() {
   // 필터 상태와 검색 상태 추가
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchType, setSearchType] = useState("entire");
+  const [searchType] = useState("entire");
   const [filteredProjects, setFilteredProjects] = useState([]);
 
   useEffect(() => {
@@ -461,36 +430,15 @@ export default function ProjectFind() {
         </FilterLink>
       </Filters>
 
-      <div
-        style={{
-          display: "flex",
-          margin: "0 auto",
-        }}
-      >
-        <AdDiv1>
-          <AdImg
-            src="../../images/banner(2).png"
-            alt="ad"
-            style={{ width: "100%", height: "50%" }}
-          />
-        </AdDiv1>
-        <div style={{ width: "100%" }}>
-          {/* 검색된 프로젝트가 없다면 메시지 표시. */}
-          {paginatedData.length === 0 ? (
-            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
-          ) : (
-            paginatedData?.map((project) => (
-              <ProjectCard key={project.pjId} project={project} />
-            ))
-          )}
-        </div>
-        <AdDiv2>
-          <AdImg
-            src="../../images/banner(2).png"
-            alt="ad"
-            style={{ width: "100%", height: "50%" }}
-          />
-        </AdDiv2>
+      <div style={{ width: "100%" }}>
+        {/* 검색된 프로젝트가 없다면 메시지 표시. */}
+        {paginatedData.length === 0 ? (
+          <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+        ) : (
+          paginatedData?.map((project) => (
+            <ProjectCard key={project.pjId} project={project} />
+          ))
+        )}
       </div>
       <PaginationContainer>
         <CmsPagination

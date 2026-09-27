@@ -2,48 +2,68 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1.2rem 0;
-  gap: 0.5rem;
+  margin: 1.5rem 0 0.5rem;
+  gap: 0.4rem;
+  flex-wrap: wrap;
 }
 
 .pagination button {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 0.2rem 0.6rem;
-  font-size: 1rem;
-  color: #333;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 0.6rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
   cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #4758ee;
-  color: #fff;
+  background-color: #edf1ff;
+  border-color: rgba(93, 120, 230, 0.4);
+  color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 .pagination button:disabled {
-  background-color: #eaeaea;
-  color: #999;
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+  color: #b7bbcc;
   cursor: not-allowed;
 }
+
 .pagination button:hover:disabled {
-  color: #a1a1a1;
+  color: #b7bbcc;
+  transform: none;
 }
+
 .pagination button.active {
-  background-color: #4758ee;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
   color: white;
-  font-weight: bold;
-  border: none;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(51, 80, 224, 0.35);
 }
 
 .pagination button.first,
 .pagination button.last {
-  font-weight: bold;
+  font-weight: 700;
+  color: var(--color-text-muted);
 }
 
 .pagination button.arrow {
   background-color: transparent;
-  color: #333;
-  border: none;
-  font-size: 1rem;
+  border-color: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.pagination button.arrow:hover:not(:disabled) {
+  background-color: #edf1ff;
+  border-color: transparent;
 }

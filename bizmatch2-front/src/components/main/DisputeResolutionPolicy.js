@@ -7,14 +7,14 @@ export default function DisputeResolutionPolicy() {
       <h1 className={styles.title}>BizMatch 분쟁 해결 정책</h1>
       <div className={styles.policyContent}>
         <section className={styles.section}>
-          <h2>1. 분쟁 해결의 원칙</h2>
+          <h2 className={styles.sectionTitle}>1. 분쟁 해결의 원칙</h2>
           <p>
             BizMatch는 회원 간, 또는 회사와 회원 간 발생하는 분쟁을 공정하고
             신속하게 해결하기 위해 최선을 다합니다.
           </p>
         </section>
         <section className={styles.section}>
-          <h2>2. 내부 분쟁 해결 절차</h2>
+          <h2 className={styles.sectionTitle}>2. 내부 분쟁 해결 절차</h2>
           <p>
             (1) 회원은 분쟁 발생 시, 플랫폼 내 제공되는 &quot;문의하기&quot;
             또는 &quot;신고&quot; 기능을 통해 문제를 접수할 수 있습니다.
@@ -29,15 +29,15 @@ export default function DisputeResolutionPolicy() {
           </p>
         </section>
         <section className={styles.section}>
-          <h2>3. 중재 및 조정</h2>
+          <h2 className={styles.sectionTitle}>3. 중재 및 조정</h2>
           <p>
             회원 간 합의가 이루어지지 않는 경우, 회사는 중재자로서 객관적인
-            해결책을 제안할 수 있습니다. 중재 결과는 법적 구속력을 가지지 않으며
-            회원 간 자발적인 합의를 기반으로 합니다.
+            해결책을 제안할 수 있습니다. 중재 결과는 법적 구속력을 가지지
+            않으며 회원 간 자발적인 합의를 기반으로 합니다.
           </p>
         </section>
         <section className={styles.section}>
-          <h2>4. 외부 기관 이용</h2>
+          <h2 className={styles.sectionTitle}>4. 외부 기관 이용</h2>
           <p>
             (1) 회사의 내부 분쟁 해결 절차에도 불구하고 분쟁이 해결되지 않는
             경우, 회원은 관련 법률에 따라 외부 기관(예: 한국소비자원,
@@ -49,7 +49,7 @@ export default function DisputeResolutionPolicy() {
           </p>
         </section>
         <section className={styles.section}>
-          <h2>5. 관할 법원</h2>
+          <h2 className={styles.sectionTitle}>5. 관할 법원</h2>
           <p>
             회사와 회원 간의 분쟁은 협의로 해결함을 원칙으로 하며, 합의가
             이루어지지 않을 경우 회사의 본사 소재지에 위치한 관할 법원에서

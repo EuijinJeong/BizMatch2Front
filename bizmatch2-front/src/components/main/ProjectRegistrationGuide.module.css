@@ -1,54 +1,250 @@
-.guideContainer {
-  max-width: 60%;
-  margin: 5vh auto;
-  padding: 4vh 5vw;
-  background-color: #ffffff;
-  border-radius: 2vw;
-  box-shadow: 0 1.5vh 3vw rgba(0, 0, 0, 0.15);
+.page {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* ---------- HERO ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #0f1830 0%,
+    var(--color-navy-900) 55%,
+    #131c33 100%
+  );
+  padding: 5.5rem 1.5rem 4.5rem;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px 300px at 85% 0%,
+    rgba(51, 80, 224, 0.35),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #9db1ff;
+  background: rgba(51, 80, 224, 0.15);
+  border: 1px solid rgba(93, 120, 230, 0.4);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
 }
 
 .title {
-  font-size: 3vw;
-  color: #4758ee;
-  text-align: center;
-  margin-bottom: 5vh;
-  font-weight: bold;
-  text-shadow: 0.3vw 0.3vw 0.5vw rgba(0, 0, 0, 0.1);
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-top: 1.25rem;
+  color: #ffffff;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin-top: 1rem;
+  color: #b7bfdd;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 34rem;
+}
+
+/* ---------- STEPS ---------- */
+
+.stepsSection {
+  max-width: 46rem;
+  margin: -2.5rem auto 4rem;
+  padding: 0 1.5rem;
+  position: relative;
 }
 
 .stepsContainer {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 3vh;
+  gap: 1rem;
 }
 
 .step {
   display: flex;
-  flex-direction: column;
-  gap: 1vh;
-  padding: 2vh 2vw;
-  background: linear-gradient(to right, #eef3ff, #dbeaff);
-  border: 0.2vw solid #4758ee;
-  border-radius: 1.5vw;
-  box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.5rem 1.75rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(19, 30, 74, 0.08);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .step:hover {
-  transform: translateY(-1vh);
-  background: linear-gradient(to right, #dceaff, #c5d9ff);
+  transform: translateY(-4px);
+  border-color: #c7d0f5;
+  box-shadow: 0 16px 32px rgba(19, 30, 74, 0.12);
+}
+
+.stepBadge {
+  flex-shrink: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 12px;
+  background: #edf1ff;
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .stepTitle {
-  font-size: 1.5vw;
-  color: #4758ee;
-  font-weight: bold;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--color-navy-900);
+  margin: 0;
 }
 
 .stepDescription {
-  font-size: 1.2vw;
-  color: #333333;
-  line-height: 1.8;
-  padding-left: 1vw;
-  border-left: 0.4vw solid #4758ee;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ---------- CTA ---------- */
+
+.ctaBanner {
+  position: relative;
+  overflow: hidden;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  background: linear-gradient(180deg, var(--color-navy-900) 0%, #1c2650 100%);
+  border-radius: 24px;
+  padding: 3.5rem 2rem;
+}
+
+.ctaGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    480px 240px at 50% 0%,
+    rgba(51, 80, 224, 0.4),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.ctaEyebrow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #9db1ff;
+  background: rgba(51, 80, 224, 0.18);
+  border: 1px solid rgba(93, 120, 230, 0.4);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+
+.ctaTitle {
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ctaSubtitle {
+  position: relative;
+  font-size: 0.98rem;
+  color: #b7bfdd;
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+  max-width: 28rem;
+}
+
+.ctaButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  border: none;
+  padding: 0.95rem 1.8rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(51, 80, 224, 0.45);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.ctaButton:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(51, 80, 224, 0.5);
+}
+
+.ctaArrow {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.9rem;
+  }
+
+  .ctaBanner {
+    padding: 2.75rem 1.5rem;
+  }
+
+  .ctaButton {
+    width: 100%;
+    justify-content: center;
+  }
 }
