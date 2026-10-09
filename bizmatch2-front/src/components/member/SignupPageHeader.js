@@ -21,6 +21,11 @@ const IconBadge = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
+  line-height: 1;
+
+  svg {
+    display: block;
+  }
 `;
 
 const Title = styled.h1`

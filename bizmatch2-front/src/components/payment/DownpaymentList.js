@@ -154,7 +154,7 @@ export default function DownpaymentList() {
   };
 
   const dispatch = useDispatch();
-  const emilAddr = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const emilAddr = JSON.parse(sessionStorage.getItem("info") || "null")?.emilAddr;
   const paymentInfo = useSelector((state) => state.payment.data);
 
   useEffect(() => {

@@ -19,7 +19,12 @@ export const signinAlarmSender = (email) => {
     message: "로그인",
     url: null,
   };
-  socket.send(JSON.stringify(sendMessage));
+  try {
+    socket.send(JSON.stringify(sendMessage));
+  } catch (e) {
+    // 소켓이 아직 연결되지 않았으면 조용히 무시한다.
+    // (호출부의 finally에서 실행되므로, 여기서 던지면 상위 함수의 반환값이 사라진다.)
+  }
 };
 
 export const penatlyAlarmSender = (receiveEmail, message) => {

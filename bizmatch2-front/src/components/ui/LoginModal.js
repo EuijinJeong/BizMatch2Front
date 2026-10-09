@@ -4,12 +4,20 @@ import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
 import { getMyToken } from "../../stores/thunks/loginThunk";
 import { memberActions } from "../../stores/memberSlice";
-import { login } from "../http/api/loginApi";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faLock,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Error = styled.span`
-  font-size: 1rem;
-  color: red;
+  display: block;
+  margin-top: -0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d64545;
 `;
 
 export default function LoginModal({ onClose, loginState }) {
@@ -52,10 +60,10 @@ export default function LoginModal({ onClose, loginState }) {
       const email = emailRef.current.value;
       if (!email) {
         setErrorMsg("이메일을 입력해주세요.");
-        emailRef.current.style.border = "2px solid red";
+        emailRef.current.style.border = "2px solid #d64545";
       } else if (!isValidEmail(email) && email) {
         setErrorMsg("이메일 형식이 올바르지 않습니다.");
-        emailRef.current.style.border = "2px solid red";
+        emailRef.current.style.border = "2px solid #d64545";
       } else {
         setErrorMsg("");
         emailRef.current.style.border = "";
@@ -68,7 +76,7 @@ export default function LoginModal({ onClose, loginState }) {
       const password = passwordRef.current.value;
       if (!password) {
         setErrorMsg("비밀번호를 입력해주세요");
-        passwordRef.current.style.border = "2px solid red";
+        passwordRef.current.style.border = "2px solid #d64545";
       } else {
         setErrorMsg("");
         passwordRef.current.style.border = "";
@@ -83,14 +91,14 @@ export default function LoginModal({ onClose, loginState }) {
 
     if (!email && !password) {
       setErrorMsg("이메일과 비밀번호를 입력해주세요.");
-      emailRef.current.style.border = "2px solid red";
-      passwordRef.current.style.border = "2px solid red";
+      emailRef.current.style.border = "2px solid #d64545";
+      passwordRef.current.style.border = "2px solid #d64545";
     } else if (!email) {
       setErrorMsg("이메일을 입력해주세요");
-      emailRef.current.style.border = "2px solid red";
+      emailRef.current.style.border = "2px solid #d64545";
     } else if (!password) {
       setErrorMsg("비밀번호를 입력해주세요");
-      passwordRef.current.style.border = "2px solid red";
+      passwordRef.current.style.border = "2px solid #d64545";
     }
 
     try {
@@ -99,18 +107,18 @@ export default function LoginModal({ onClose, loginState }) {
 
       if (errorMessage) {
         setErrorMsg(errorMessage);
-        emailRef.current.style.border = "1px solid red";
-        passwordRef.current.style.border = "1px solid red";
+        emailRef.current.style.border = "1px solid #d64545";
+        passwordRef.current.style.border = "1px solid #d64545";
       } else if (!email && !password) {
         setErrorMsg("이메일과 비밀번호를 입력해주세요.");
-        emailRef.current.style.border = "1px solid red";
-        passwordRef.current.style.border = "1px solid red";
+        emailRef.current.style.border = "1px solid #d64545";
+        passwordRef.current.style.border = "1px solid #d64545";
       } else if (!email) {
         setErrorMsg("이메일을 입력해주세요");
-        emailRef.current.style.border = "1px solid red";
+        emailRef.current.style.border = "1px solid #d64545";
       } else if (!password) {
         setErrorMsg("비밀번호를 입력해주세요");
-        passwordRef.current.style.border = "1px solid red";
+        passwordRef.current.style.border = "1px solid #d64545";
       } else {
         loginDispatcher(getMyToken(email, password));
 
@@ -124,105 +132,103 @@ export default function LoginModal({ onClose, loginState }) {
     } catch (error) {
       console.error("로그인 처리 중 오류 발생:", error);
     }
-
-    try {
-      const tokenResponse = await login(email, password);
-      if (tokenResponse.status === 401) {
-        alert("회원 심사중이므로 로그인이 불가능합니다.");
-        return;
-      }
-    } catch (error) {
-      return;
-    }
-
-    if (loginState.info && loginState.info.emilAddr) {
-      onClose();
-      navigate("/");
-      window.location.reload();
-    }
   };
 
   return (
     <>
       <div className={styles.overlay} id="overlay"></div>
       <div className={styles.loginModal} id="login-modal">
-        <div className={styles.loginModalContainer}>
+        <div className={styles.modalHeader}>
           <span
             className={styles.modalCloseBtn}
             id="modal-close-btn"
             onClick={onClose}
-            style={{ color: "#333" }}
           >
             x
           </span>
-
-          <div className={styles.loginModalImgArea}>
-            <img src="/images/teamLogo.svg" alt="Logo" />
+          <span className={styles.modalEyebrow}>WELCOME BACK</span>
+          <div className={styles.modalWordmark}>
+            Biz<span>Match</span>
           </div>
+          <p className={styles.modalSubtitle}>
+            다시 만나서 반가워요. 이메일로 로그인해주세요.
+          </p>
+        </div>
 
-          <div className={styles.loginModalBtns}>
-            <div className={styles.signinBox}>
-              <div>{/* 오류 메시지가 있을 경우 출력 */}</div>
-
-              <div className={styles.sameBox}>
-                <input
-                  type="email"
-                  placeholder=" "
-                  name="emailAddr"
-                  ref={emailRef}
-                  onChange={onChangeEmailHandler}
-                  required
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault(); // 폼 제출 방지 (필요한 경우)
-                      onClickLoginHandler();
-                    }
-                  }}
-                />
-                <label htmlFor="login-input-email">이메일</label>
-              </div>
-
-              <div className={styles.sameBox}>
-                <input
-                  type="password"
-                  placeholder=" "
-                  name="pwd"
-                  onChange={onChangePasswordHandler}
-                  ref={passwordRef}
-                  required
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault(); // 폼 제출 방지 (필요한 경우)
-                      onClickLoginHandler();
-                      onClose();
-                    }
-                  }}
-                />
-                <label htmlFor="login-input-pwd">비밀번호</label>
-              </div>
-
-              <Error>{errorMsg}</Error>
-
-              <div className={styles.sameBox}>
-                <button
-                  onClick={onClickLoginHandler}
-                  className={styles.signinButton}
-                >
-                  로그인
-                </button>
-              </div>
+        <div className={styles.loginModalContainer}>
+          <div className={styles.signinBox}>
+            <div className={styles.sameBox}>
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className={styles.inputIcon}
+              />
+              <input
+                type="email"
+                placeholder=" "
+                name="emailAddr"
+                ref={emailRef}
+                onChange={onChangeEmailHandler}
+                required
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // 폼 제출 방지 (필요한 경우)
+                    onClickLoginHandler();
+                  }
+                }}
+              />
+              <label htmlFor="login-input-email">이메일</label>
             </div>
+
+            <div className={styles.sameBox}>
+              <FontAwesomeIcon icon={faLock} className={styles.inputIcon} />
+              <input
+                type="password"
+                placeholder=" "
+                name="pwd"
+                onChange={onChangePasswordHandler}
+                ref={passwordRef}
+                required
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // 폼 제출 방지 (필요한 경우)
+                    onClickLoginHandler();
+                  }
+                }}
+              />
+              <label htmlFor="login-input-pwd">비밀번호</label>
+            </div>
+
+            {errorMsg && <Error>{errorMsg}</Error>}
+
+            <button
+              onClick={onClickLoginHandler}
+              className={styles.signinButton}
+            >
+              로그인
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className={styles.signinButtonIcon}
+              />
+            </button>
           </div>
 
-          <ul className={styles.accountMenu}>
-            <li className={styles.accountMenuText}>
-              <NavLink to="/member/findpwd">비밀번호 찾기</NavLink>
-            </li>
-            <li>/</li>
-            <li className={styles.accountMenuText}>
-              <NavLink to="/member/select/membertype">회원가입</NavLink>
-            </li>
-          </ul>
+          <div className={styles.accountMenu}>
+            <NavLink
+              className={styles.accountMenuText}
+              to="/member/findpwd"
+              onClick={onClose}
+            >
+              비밀번호 찾기
+            </NavLink>
+            <span className={styles.accountMenuDivider} />
+            <NavLink
+              className={styles.accountMenuText}
+              to="/member/select/membertype"
+              onClick={onClose}
+            >
+              회원가입
+            </NavLink>
+          </div>
         </div>
       </div>
     </>

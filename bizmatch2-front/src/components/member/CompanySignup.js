@@ -13,7 +13,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { categoryActions, categoryActions2 } from "../../stores/ToolkitStrore";
-import { faBuilding } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBuilding,
+  faUser,
+  faLock,
+  faUsers,
+  faPhone,
+  faGlobe,
+  faEnvelope,
+  faLocationDot,
+  faIdCard,
+  faShieldHalved,
+  faPaperclip,
+  faFileContract,
+  faCloudArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SignupPageHeader from "./SignupPageHeader";
 import SignupStepProgress from "./SignupStepProgress";
 
@@ -41,11 +56,18 @@ const StepPanel = styled.div`
 `;
 
 const SectionLabel = styled.p`
-  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--color-primary);
-  margin: 0 0 1rem;
+  background: #edf1ff;
+  border: 1px solid rgba(93, 120, 230, 0.3);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  margin: 1.5rem 0;
 `;
 
 const NavRow = styled.div`
@@ -81,34 +103,71 @@ const RedWord = styled.span`
 `;
 
 const AuthNumField = styled.input`
-  padding: 0.75rem 0.9rem;
+  padding: 0.85rem 1rem;
   font-size: 0.95rem;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 12px;
+  background-color: #f8f9fd;
   flex-grow: 1;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
 
   &:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 4px rgba(51, 80, 224, 0.12);
   }
 `;
 
 const ConfirmAuthNumButton = styled.button`
-  padding: 0.75rem 1.2rem;
+  padding: 0.85rem 1.2rem;
   font-size: 0.95rem;
   font-weight: 700;
-  background-color: var(--color-teal);
+  background: linear-gradient(135deg, var(--color-teal), #12bf7e);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(14, 164, 107, 0.3);
+  transition: filter 0.2s ease,
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 
   &:hover {
-    background-color: #0c8c5b;
-    transform: translateY(-1px);
+    filter: brightness(0.94);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(14, 164, 107, 0.38);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+`;
+
+const InputIconRow = styled.div`
+  position: relative;
+  flex-grow: 1;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+
+  input:focus ~ svg,
+  input:not(:placeholder-shown) ~ svg {
+    color: var(--color-primary);
+  }
+
+  input {
+    padding-left: 2.6rem !important;
   }
 `;
 
@@ -119,22 +178,26 @@ const TextBox = styled.div`
   margin-bottom: 1.75rem;
 
   p {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: var(--color-navy-900);
   }
 
   input {
-    padding: 0.75rem 0.9rem;
+    padding: 0.85rem 1rem;
     font-size: 0.95rem;
     border: 1px solid var(--color-border);
-    border-radius: 10px;
+    border-radius: 12px;
+    background-color: #f8f9fd;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+      background-color 0.2s ease;
 
     &:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+      background-color: var(--color-surface);
+      box-shadow: 0 0 0 4px rgba(51, 80, 224, 0.12);
     }
   }
 
@@ -153,7 +216,7 @@ const BtnBox = styled.div`
   margin-bottom: 1.75rem;
 
   p {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: var(--color-navy-900);
   }
@@ -162,37 +225,50 @@ const BtnBox = styled.div`
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   input {
-    padding: 0.75rem 0.9rem;
+    padding: 0.85rem 1rem;
     font-size: 0.95rem;
     border: 1px solid var(--color-border);
-    border-radius: 10px;
+    border-radius: 12px;
+    background-color: #f8f9fd;
     flex-grow: 1;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+      background-color 0.2s ease;
 
     &:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+      background-color: var(--color-surface);
+      box-shadow: 0 0 0 4px rgba(51, 80, 224, 0.12);
     }
   }
 
   button {
-    padding: 0.75rem 1.2rem;
+    padding: 0.85rem 1.2rem;
     font-size: 0.95rem;
     font-weight: 700;
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), #4a63e8);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 8px 18px rgba(51, 80, 224, 0.3);
+    transition: filter 0.2s ease,
+      transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 
     &:hover {
-      background-color: var(--color-primary-dark);
-      transform: translateY(-1px);
+      filter: brightness(0.94);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(51, 80, 224, 0.38);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
     }
   }
 `;
@@ -204,7 +280,7 @@ const ComAddr = styled.div`
   margin-bottom: 1.75rem;
 
   p {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 700;
     color: var(--color-navy-900);
   }
@@ -213,37 +289,50 @@ const ComAddr = styled.div`
 const ComDiv = styled.div`
   display: flex;
   gap: 0.75rem;
+  flex-wrap: wrap;
   margin-bottom: 1rem;
 
   input {
-    padding: 0.75rem 0.9rem;
+    padding: 0.85rem 1rem;
     font-size: 0.95rem;
     border: 1px solid var(--color-border);
-    border-radius: 10px;
+    border-radius: 12px;
+    background-color: #f8f9fd;
     flex-grow: 1;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+      background-color 0.2s ease;
 
     &:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(51, 80, 224, 0.15);
+      background-color: var(--color-surface);
+      box-shadow: 0 0 0 4px rgba(51, 80, 224, 0.12);
     }
   }
 
   button {
-    padding: 0.75rem 1.2rem;
+    padding: 0.85rem 1.2rem;
     font-size: 0.95rem;
     font-weight: 700;
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), #4a63e8);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 8px 18px rgba(51, 80, 224, 0.3);
+    transition: filter 0.2s ease,
+      transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 
     &:hover {
-      background-color: var(--color-primary-dark);
-      transform: translateY(-1px);
+      filter: brightness(0.94);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(51, 80, 224, 0.38);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
     }
   }
 `;
@@ -267,9 +356,57 @@ const FileBox = styled.div`
 `;
 
 const AddFile = styled.div`
-  input[type="file"] {
-    font-size: 0.9rem;
+  position: relative;
+`;
+
+const FileDropLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  border: 1.5px dashed var(--color-border);
+  border-radius: 14px;
+  background-color: #f8f9fd;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    color 0.2s ease;
+
+  svg {
+    font-size: 1.5rem;
+    color: var(--color-primary);
   }
+
+  span {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  small {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  &:hover {
+    border-color: var(--color-primary);
+    background-color: #edf1ff;
+  }
+`;
+
+const HiddenFileInput = styled.input`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 `;
 
 const FileList = styled.ul`
@@ -342,7 +479,6 @@ const SignupButton = styled.button`
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  margin-top: 1.5rem;
   box-shadow: 0 8px 20px rgba(51, 80, 224, 0.35);
   transition: background-color 0.2s ease, transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -768,18 +904,21 @@ export default function CompanySignup() {
         </p>
 
         <StepPanel $active={currentStep === 1}>
-        <SectionLabel>기본 정보</SectionLabel>
+        <SectionLabel><FontAwesomeIcon icon={faUser} />기본 정보</SectionLabel>
         <TextBox>
           <p>
             <RedWord>*</RedWord>이용자명
           </p>
-          <input
-            id="mbrNm"
-            type="text"
-            name="mbrNm"
-            placeholder="이름 입력"
-            ref={nameRef}
-          />
+          <InputIconRow>
+            <input
+              id="mbrNm"
+              type="text"
+              name="mbrNm"
+              placeholder="이름 입력"
+              ref={nameRef}
+            />
+            <FontAwesomeIcon icon={faUser} />
+          </InputIconRow>
         </TextBox>
 
         <BtnBox>
@@ -787,13 +926,16 @@ export default function CompanySignup() {
             <RedWord>*</RedWord>이메일주소
           </p>
           <div>
-            <input
-              id="emilAddr"
-              type="email"
-              name="emilAddr"
-              placeholder="업무용 이메일 사용을 권장합니다. (8자리 이상)"
-              ref={emailRef}
-            />
+            <InputIconRow>
+              <input
+                id="emilAddr"
+                type="email"
+                name="emilAddr"
+                placeholder="업무용 이메일 권장 (8자리 이상)"
+                ref={emailRef}
+              />
+              <FontAwesomeIcon icon={faEnvelope} />
+            </InputIconRow>
             <button type="button" onClick={handleEmailCheck}>
               이메일 주소 인증
             </button>
@@ -806,13 +948,16 @@ export default function CompanySignup() {
           </p>
           <div>
             <div>
-              <AuthNumField
-                id="authNumField"
-                name="emilAddrCnfrmNmbr"
-                type="text"
-                placeholder="인증번호 6자리 입력"
-                ref={authNumRef}
-              />
+              <InputIconRow>
+                <AuthNumField
+                  id="authNumField"
+                  name="emilAddrCnfrmNmbr"
+                  type="text"
+                  placeholder="인증번호 6자리 입력"
+                  ref={authNumRef}
+                />
+                <FontAwesomeIcon icon={faShieldHalved} />
+              </InputIconRow>
               <Timer>
                 {minutes}:{seconds < 10 ? "0" : ""}
                 {seconds}
@@ -833,13 +978,16 @@ export default function CompanySignup() {
             <p>
               <RedWord>*</RedWord>비밀번호
             </p>
-            <input
-              ref={passwordRef}
-              type="password"
-              name="pwd"
-              placeholder="대소문자 및 특수문자 포함 8자리 이상 입력"
-              onChange={handlePasswordValidation}
-            />
+            <InputIconRow>
+              <input
+                ref={passwordRef}
+                type="password"
+                name="pwd"
+                placeholder="대소문자 및 특수문자 포함 8자리 이상 입력"
+                onChange={handlePasswordValidation}
+              />
+              <FontAwesomeIcon icon={faLock} />
+            </InputIconRow>
           </TextBox>
 
           {/* Confirm Password Section */}
@@ -847,13 +995,16 @@ export default function CompanySignup() {
             <p>
               <RedWord>*</RedWord>비밀번호 확인
             </p>
-            <input
-              type="password"
-              name="confirmPwd"
-              placeholder="비밀번호 확인"
-              onChange={handlePasswordValidation}
-              ref={confirmPasswordRef}
-            />
+            <InputIconRow>
+              <input
+                type="password"
+                name="confirmPwd"
+                placeholder="비밀번호 확인"
+                onChange={handlePasswordValidation}
+                ref={confirmPasswordRef}
+              />
+              <FontAwesomeIcon icon={faLock} />
+            </InputIconRow>
             {pwdMatch === false && (
               <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
             )}
@@ -862,20 +1013,23 @@ export default function CompanySignup() {
 
         {/* Business Number Section */}
         <StepPanel $active={currentStep === 2}>
-        <SectionLabel>사업자 정보</SectionLabel>
+        <SectionLabel><FontAwesomeIcon icon={faBuilding} />사업자 정보</SectionLabel>
           <BtnBox>
             <p>
               <RedWord>*</RedWord>사업자 번호
             </p>
             <span></span>
             <div>
-              <input
-                id="cmpnyBrn"
-                type="text"
-                name="cmpnyBrn"
-                placeholder="사업자 번호 입력"
-                ref={businessNumRef}
-              />
+              <InputIconRow>
+                <input
+                  id="cmpnyBrn"
+                  type="text"
+                  name="cmpnyBrn"
+                  placeholder="사업자 번호 입력"
+                  ref={businessNumRef}
+                />
+                <FontAwesomeIcon icon={faIdCard} />
+              </InputIconRow>
               <button id="cmpnyBrnConfirm" onClick={handleBusinessNum}>
                 사업자 번호 확인
               </button>
@@ -887,14 +1041,17 @@ export default function CompanySignup() {
             <p>
               <RedWord>*</RedWord>직원 수
             </p>
-            <input
-              id="cmpnyEmplyCnt"
-              type="number"
-              name="cmpnyEmplyCnt"
-              placeholder="직원 수 입력"
-              ref={employeeCountRef}
-              min="0"
-            />
+            <InputIconRow>
+              <input
+                id="cmpnyEmplyCnt"
+                type="number"
+                name="cmpnyEmplyCnt"
+                placeholder="직원 수 입력"
+                ref={employeeCountRef}
+                min="0"
+              />
+              <FontAwesomeIcon icon={faUsers} />
+            </InputIconRow>
           </TextBox>
 
           {/* Phone Number Section */}
@@ -902,13 +1059,16 @@ export default function CompanySignup() {
             <p>
               <RedWord>*</RedWord>이용자 전화번호
             </p>
-            <input
-              id="cmpnyNm"
-              type="text"
-              name="cmpnyNm"
-              placeholder="전화번호 입력"
-              ref={phoneNumRef}
-            />
+            <InputIconRow>
+              <input
+                id="cmpnyNm"
+                type="text"
+                name="cmpnyNm"
+                placeholder="전화번호 입력"
+                ref={phoneNumRef}
+              />
+              <FontAwesomeIcon icon={faPhone} />
+            </InputIconRow>
           </TextBox>
 
           {/* Company Name Section */}
@@ -916,13 +1076,16 @@ export default function CompanySignup() {
             <p>
               <RedWord>*</RedWord>기업명
             </p>
-            <input
-              id="cmpnyNm"
-              type="text"
-              name="cmpnyNm"
-              placeholder="기업명 입력"
-              ref={companyNameRef}
-            />
+            <InputIconRow>
+              <input
+                id="cmpnyNm"
+                type="text"
+                name="cmpnyNm"
+                placeholder="기업명 입력"
+                ref={companyNameRef}
+              />
+              <FontAwesomeIcon icon={faBuilding} />
+            </InputIconRow>
           </TextBox>
 
           {/* Address Section */}
@@ -931,41 +1094,42 @@ export default function CompanySignup() {
               <RedWord>*</RedWord>기업주소
             </p>
             <ComDiv>
-              <input
-                type="text"
-                id="postcode"
-                placeholder="우편번호 입력"
-                name="addr.postcode"
-                ref={postcodeRef}
-              />
+              <InputIconRow>
+                <input
+                  type="text"
+                  id="postcode"
+                  placeholder="우편번호 입력"
+                  name="addr.postcode"
+                  ref={postcodeRef}
+                />
+                <FontAwesomeIcon icon={faLocationDot} />
+              </InputIconRow>
               <button type="button" onClick={sample6_execDaumPostcode}>
                 도로명 주소 찾기
               </button>
             </ComDiv>
             <ComDiv>
-              <div>
-                <input
-                  type="text"
-                  id="addr"
-                  placeholder="도로명 주소 입력"
-                  name="addr.addr"
-                  ref={addressRef}
-                />
-                <input
-                  type="text"
-                  id="extraAddress"
-                  placeholder="참고항목"
-                  name="addr.extraAddress"
-                  ref={extraAddressRef}
-                />
-                <input
-                  type="text"
-                  id="detailAddress"
-                  placeholder="상세주소 입력"
-                  name="addr.detailAddress"
-                  ref={detailAddressRef}
-                />
-              </div>
+              <input
+                type="text"
+                id="addr"
+                placeholder="도로명 주소 입력"
+                name="addr.addr"
+                ref={addressRef}
+              />
+              <input
+                type="text"
+                id="extraAddress"
+                placeholder="참고항목"
+                name="addr.extraAddress"
+                ref={extraAddressRef}
+              />
+              <input
+                type="text"
+                id="detailAddress"
+                placeholder="상세주소 입력"
+                name="addr.detailAddress"
+                ref={detailAddressRef}
+              />
             </ComDiv>
           </ComAddr>
 
@@ -973,27 +1137,39 @@ export default function CompanySignup() {
           <p>
             <RedWord>*</RedWord>기업 전화번호
           </p>
-          <input
-            id="cmpnyNm"
-            type="text"
-            name="cmpnyNm"
-            placeholder="02-000-0000"
-            ref={companyCallNumRef}
-          />
+          <InputIconRow>
+            <input
+              id="cmpnyNm"
+              type="text"
+              name="cmpnyNm"
+              placeholder="02-000-0000"
+              ref={companyCallNumRef}
+            />
+            <FontAwesomeIcon icon={faPhone} />
+          </InputIconRow>
         </TextBox>
         </StepPanel>
 
         {/* File Upload */}
         <StepPanel $active={currentStep === 3}>
-        <SectionLabel>첨부 및 추가 정보</SectionLabel>
+        <SectionLabel><FontAwesomeIcon icon={faPaperclip} />첨부 및 추가 정보</SectionLabel>
         <BtnBox>
           <p>
             <RedWord>*</RedWord>이용자 첨부파일
           </p>
           <FileBox>
             <AddFile>
-              <input
-                className="fileList"
+              <FileDropLabel htmlFor="companyFileInput">
+                <FontAwesomeIcon icon={faCloudArrowUp} />
+                <span>
+                  {fileList.length > 0
+                    ? `${fileList.length}개 파일 선택됨 · 추가로 선택하기`
+                    : "클릭하여 파일을 선택하세요"}
+                </span>
+                <small>PDF, 이미지 등 여러 개 첨부 가능</small>
+              </FileDropLabel>
+              <HiddenFileInput
+                id="companyFileInput"
                 type="file"
                 name="fileList[0]"
                 ref={fileRef}
@@ -1019,13 +1195,16 @@ export default function CompanySignup() {
           <p>
             <RedWord>*</RedWord>회사 사이트 주소
           </p>
-          <input
-            id="cmpnyNm"
-            type="text"
-            name="cmpnyNm"
-            placeholder="회사 사이트 주소 입력"
-            ref={companyUrlRef}
-          />
+          <InputIconRow>
+            <input
+              id="cmpnyNm"
+              type="text"
+              name="cmpnyNm"
+              placeholder="회사 사이트 주소 입력"
+              ref={companyUrlRef}
+            />
+            <FontAwesomeIcon icon={faGlobe} />
+          </InputIconRow>
         </TextBox>
 
         {/* Major Industry */}
@@ -1047,7 +1226,7 @@ export default function CompanySignup() {
 
         {/* Checkboxes */}
         <StepPanel $active={currentStep === 4}>
-        <SectionLabel>약관 동의</SectionLabel>
+        <SectionLabel><FontAwesomeIcon icon={faFileContract} />약관 동의</SectionLabel>
         <TextBox>
           {" "}
           <p>

@@ -43,7 +43,7 @@ const MainTitle = styled.h1`
 `;
 
 export default function MyOrderProject() {
-  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const email = JSON.parse(sessionStorage.getItem("info") || "null")?.emilAddr;
   const dispatcher = useDispatch();
   const myOrderProjectList = useSelector((state) => state.project.myData);
 

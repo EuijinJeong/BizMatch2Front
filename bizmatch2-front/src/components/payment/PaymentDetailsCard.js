@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 export default function ProjectDetailsCard() {
   const dispatch = useDispatch();
-  const emilAddr = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const emilAddr = JSON.parse(sessionStorage.getItem("info") || "null")?.emilAddr;
   const startDate = useRef("");
   const companyName = useRef("");
   const projectTitle = useRef("");

@@ -42,8 +42,9 @@ const MainTitle = styled.h1`
   }
 `;
 export default function MyApplyProject() {
-  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
-  const mbrCtgry = JSON.parse(sessionStorage.getItem("info")).mbrCtgry;
+  const sessionInfo = JSON.parse(sessionStorage.getItem("info") || "null");
+  const email = sessionInfo?.emilAddr;
+  const mbrCtgry = sessionInfo?.mbrCtgry;
   const dispatcher = useDispatch();
   const myApplyProjectList = useSelector((state) => state.project.myApplyData);
   useEffect(() => {

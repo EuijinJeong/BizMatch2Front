@@ -154,7 +154,7 @@ export default function DepositList() {
     setStartDate(newStartDate);
   };
 
-  const emilAddr = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const emilAddr = JSON.parse(sessionStorage.getItem("info") || "null")?.emilAddr;
   const dispatch = useDispatch();
   const paymentInfo = useSelector((state) => state.payment.data);
 

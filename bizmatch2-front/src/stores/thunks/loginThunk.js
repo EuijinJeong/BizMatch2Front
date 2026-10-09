@@ -13,8 +13,11 @@ export const getMyToken = (email, password) => {
 
         const myInfoJson = await getLoginUserInfo();
         dispatcher(memberActions.setMyInfo(myInfoJson.body));
+      } else if (status === 401) {
+        return "회원 심사중이므로 로그인이 불가능합니다.";
       } else {
-        const errorMessage = tokenJson.errors.join("\n");
+        const errorMessage =
+          (tokenJson.errors || []).join("\n") || "로그인에 실패했습니다.";
         return errorMessage;
       }
     } catch (e) {

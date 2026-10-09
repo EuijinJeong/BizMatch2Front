@@ -256,7 +256,7 @@ export default function CategoryBar() {
           ref={majorInputRef}
           type="text"
           className={CategoryBarStyle.searchInput}
-          placeholder="Search Categories"
+          placeholder="검색"
           // value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
@@ -284,7 +284,7 @@ export default function CategoryBar() {
           ref={subInputRef}
           type="text"
           className={CategoryBarStyle.searchInput}
-          placeholder="Search Subcategories"
+          placeholder="검색"
           // value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}

@@ -114,6 +114,7 @@ export default function MainView() {
   return (
     <>
       <div
+        id="container"
         className={`${mainViewStyle.container} ${
           isHeroVisible ? mainViewStyle.visible : ""
         }`}
@@ -175,7 +176,7 @@ export default function MainView() {
         <ProjectShowcase />
       </div>
 
-      <div className={mainViewStyle.secondSection} ref={secondSectionRef}>
+      <div id="secondSection" className={mainViewStyle.secondSection} ref={secondSectionRef}>
         <div className={mainViewStyle.secondSectionBox}>
           <div className={mainViewStyle.sectionHead}>
             <div className={mainViewStyle.sectionEyebrow}>HOW IT WORKS</div>
@@ -225,7 +226,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection} ref={fourthSectionRef}>
+      <div id="fourthSection" className={mainViewStyle.fourthSection} ref={fourthSectionRef}>
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )

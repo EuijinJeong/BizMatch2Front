@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { categoryActions2 } from "../../stores/ToolkitStrore";
@@ -206,7 +206,7 @@ export default function CategoryBar2() {
           ref={majorInputRef}
           type="text"
           className={CategoryBarStyle.searchInput}
-          placeholder="Search Categories"
+          placeholder="검색"
           // value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
@@ -234,7 +234,7 @@ export default function CategoryBar2() {
           ref={subInputRef}
           type="text"
           className={CategoryBarStyle.searchInput}
-          placeholder="Search Subcategories"
+          placeholder="검색"
           // value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}
