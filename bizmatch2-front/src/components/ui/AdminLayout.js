@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import HeaderNav from "../../admin/ui/HeaderNav";
 import AfterLoginHeader from "../main/AfterLoginHeader";
@@ -8,24 +8,21 @@ import ScrollToTop from "../main/ScrollToTop";
 
 export default function AdminLayout() {
   const loginState = useSelector((state) => ({ ...state.member }));
-  const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
+  const isAdmin = loginState?.info?.mbrCtgry === 2;
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
-    if (loginState?.info?.mbrCtgry !== 2) {
-      const interval = setInterval(() => {
-        setTimer((prev) => {
-          if (prev === 1) {
-            clearInterval(interval);
-            navigate("/");
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
+    if (!isAdmin && !hasRedirected.current) {
+      hasRedirected.current = true;
+      alert("관리자만 접근할 수 있는 페이지입니다.");
+      navigate("/", { replace: true });
     }
-  }, [loginState, navigate]);
+  }, [isAdmin, navigate]);
+
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <>
@@ -36,14 +33,10 @@ export default function AdminLayout() {
         ) : (
           <BeforeLoginHeader />
         )}
-        {loginState?.info?.mbrCtgry === 2 ? (
-          <div>
-            <HeaderNav />
-            <Outlet />
-          </div>
-        ) : (
-          <p>관리자가 아닙니다... {timer}초 후에 메인페이지로 이동합니다.</p>
-        )}
+        <div>
+          <HeaderNav />
+          <Outlet />
+        </div>
       </div>
     </>
   );

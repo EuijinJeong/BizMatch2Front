@@ -110,9 +110,10 @@ export default function ServiceFees() {
             ))}
           </div>
         </div>
+      </section>
 
-        <div className={styles.ctaBanner}>
-          <div className={styles.ctaGlow} />
+      <section className={styles.ctaBanner}>
+        <div className={styles.ctaInner}>
           <span className={styles.ctaEyebrow}>지금 바로 시작하기</span>
           <h3 className={styles.ctaTitle}>프로젝트 등록, 지금 시작해보세요</h3>
           <p className={styles.ctaSubtitle}>

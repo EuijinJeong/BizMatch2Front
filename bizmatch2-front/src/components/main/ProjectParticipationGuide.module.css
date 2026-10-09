@@ -146,26 +146,31 @@
 .ctaBanner {
   position: relative;
   overflow: hidden;
-  margin-top: 3rem;
+  background: linear-gradient(180deg, #1c2650 0%, var(--color-navy-900) 100%);
+  padding: 5rem 1.5rem;
+}
+
+.ctaBanner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px 300px at 50% 0%,
+    rgba(51, 80, 224, 0.4),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.ctaInner {
+  position: relative;
+  max-width: 36rem;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 0.6rem;
-  background: linear-gradient(180deg, var(--color-navy-900) 0%, #1c2650 100%);
-  border-radius: 24px;
-  padding: 3.5rem 2rem;
-}
-
-.ctaGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    480px 240px at 50% 0%,
-    rgba(51, 80, 224, 0.4),
-    transparent 65%
-  );
-  pointer-events: none;
 }
 
 .ctaEyebrow {

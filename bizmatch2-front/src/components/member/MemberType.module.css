@@ -1,45 +1,83 @@
-* {
-  padding: 0;
-  margin: 0;
+.page {
+  background-color: var(--color-bg);
+  min-height: calc(100vh - 4.5rem);
 }
 
-.title {
+/* ---------- NAVY HERO ---------- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #0f1830 0%,
+    var(--color-navy-900) 55%,
+    #131c33 100%
+  );
+  padding: 4.5rem 1.5rem 7rem;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px 300px at 50% 0%,
+    rgba(51, 80, 224, 0.4),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  max-width: 36rem;
+  margin: 0 auto;
   text-align: center;
-  padding-top: 4.5rem;
-  padding-bottom: 3rem;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--color-primary);
-  background: #edf1ff;
-  border: 1px solid #d7e0fb;
+  letter-spacing: 0.08em;
+  color: #9db1ff;
+  background: rgba(51, 80, 224, 0.18);
+  border: 1px solid rgba(93, 120, 230, 0.4);
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
 }
 
-.title h1 {
-  margin-top: 1rem;
-  font-size: 1.9rem;
+.heroInner h1 {
+  margin: 1.1rem 0 0;
+  font-size: 2rem;
   font-weight: 800;
-  color: var(--color-navy-900);
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
+.subtitle {
+  margin: 0.75rem 0 0;
+  color: #b7bfdd;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+/* ---------- CARDS ---------- */
+
 .selectContainer {
   max-width: 56rem;
-  margin: 0 auto;
+  margin: -4rem auto 0;
   padding: 0 1.5rem 4rem;
+  position: relative;
 }
 
 .selectType {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: stretch;
   gap: 1.75rem;
   flex-wrap: wrap;
 }
@@ -47,28 +85,28 @@
 .contentBox {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #ffffff;
+  align-items: flex-start;
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  padding: 2.5rem 2rem;
-  text-align: center;
+  padding: 2.5rem;
+  text-align: left;
   border-radius: 20px;
-  width: 18rem;
+  width: 22rem;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(19, 30, 74, 0.06);
+  box-shadow: 0 20px 40px rgba(19, 30, 74, 0.12);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .contentBox h2 {
   margin-top: 1.5rem;
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   color: var(--color-navy-900);
 }
 
-.contentBox p {
-  margin-top: 0.5rem;
+.description {
+  margin-top: 0.4rem;
   color: var(--color-text-muted);
   font-size: 0.92rem;
 }
@@ -86,13 +124,85 @@
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+.bulletList {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.bulletList li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--color-text);
+}
+
+.bulletIcon {
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: rgba(14, 164, 107, 0.14);
+  color: var(--color-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+}
+
+.ctaButton {
+  margin-top: 1.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 0;
+  border-radius: 10px;
+  background-color: #edf1ff;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.ctaIcon {
+  font-size: 0.8rem;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 .contentBox:hover .iconBadge {
   background: var(--color-primary);
   color: #ffffff;
 }
 
+.contentBox:hover .ctaButton {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.contentBox:hover .ctaIcon {
+  transform: translateX(4px);
+}
+
 .contentBox:hover {
   border-color: var(--color-primary);
   transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(51, 80, 224, 0.16);
+  box-shadow: 0 24px 48px rgba(51, 80, 224, 0.22);
+}
+
+@media (max-width: 640px) {
+  .heroInner h1 {
+    font-size: 1.6rem;
+  }
+
+  .contentBox {
+    width: 100%;
+    max-width: 22rem;
+  }
 }

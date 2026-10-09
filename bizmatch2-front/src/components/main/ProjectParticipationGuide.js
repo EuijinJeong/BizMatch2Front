@@ -55,9 +55,10 @@ export default function ProjectParticipationGuide() {
             </li>
           ))}
         </ol>
+      </section>
 
-        <div className={styles.ctaBanner}>
-          <div className={styles.ctaGlow} />
+      <section className={styles.ctaBanner}>
+        <div className={styles.ctaInner}>
           <span className={styles.ctaEyebrow}>지금 바로 시작하기</span>
           <h3 className={styles.ctaTitle}>마음에 드는 프로젝트를 찾아보세요</h3>
           <p className={styles.ctaSubtitle}>

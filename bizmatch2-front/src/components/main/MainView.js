@@ -11,6 +11,7 @@ import {
   faChartLine,
   faShieldHalved,
   faCheck,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const FEATURES = [
@@ -259,6 +260,9 @@ export default function MainView() {
       </div>
       <div className={mainViewStyle.fifthSection} ref={fifthSectionRef}>
         <div className={mainViewStyle.fifthSectionContainer}>
+          <span className={mainViewStyle.fifthSectionEyebrow}>
+            지금 바로 시작하기
+          </span>
           <div className={mainViewStyle.fifthSectionTitle}>
             <p>지금 바로 등록하고 새로운 기회를</p>
             <p>만나보세요!</p>
@@ -269,6 +273,10 @@ export default function MainView() {
               onClick={goToRegistPage}
             >
               프로젝트 등록하기
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className={mainViewStyle.fifthSectionBtnIcon}
+              />
             </button>
           </div>
         </div>
